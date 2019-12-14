@@ -1,7 +1,6 @@
 package com.javaguru.timemanager.timereports;
 
 import com.javaguru.timemanager.projects.Project;
-import com.sun.tools.javac.comp.Resolve;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

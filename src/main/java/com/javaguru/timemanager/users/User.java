@@ -45,11 +45,14 @@ public class User {
         this.timereports = timereports;
     }
 
-    public Optional<Set<Project>> getProjects() {
-        if (timereports.isEmpty()) return Optional.empty();
+    public void addTimereport(Timereport timereport) {
+        timereports.add(timereport);
+    }
+
+    public Set<Project> getProjects() {
         Set<Project> projects = new HashSet<>();
         timereports.forEach(t -> projects.add(t.getProject()));
-        return Optional.of(projects);
+        return projects;
     }
 
     @Override
@@ -58,6 +61,7 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", timereports=" + timereports +
+                ", projects=" + getProjects() +
                 '}';
     }
 

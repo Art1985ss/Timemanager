@@ -22,6 +22,16 @@ public class Converter {
         return userDto;
     }
 
+    public static User convertFromDto(UserDto userDto) {
+        User user = new User();
+        user.setId(userDto.getId());
+        user.setName(userDto.getName());
+        Set<Timereport> timereports = new HashSet<>();
+        userDto.getTimereports().forEach(t -> timereports.add(Converter.convertFromDto(t)));
+        user.setTimereports(timereports);
+        return user;
+    }
+
     public static ProjectDto convertToDto(Project project) {
         ProjectDto projectDto = new ProjectDto();
         projectDto.setId(project.getId());
@@ -30,11 +40,27 @@ public class Converter {
         return projectDto;
     }
 
+    public static Project convertFromDto(ProjectDto projectDto) {
+        Project project = new Project();
+        project.setId(projectDto.getId());
+        project.setName(projectDto.getName());
+        project.setRate(projectDto.getRate());
+        return project;
+    }
+
     public static TimereportDto convertToDto(Timereport timereport) {
         TimereportDto timereportDto = new TimereportDto();
         timereportDto.setId(timereport.getId());
         timereportDto.setHours(timereport.getHours());
         timereportDto.setProjectDto(convertToDto(timereport.getProject()));
         return timereportDto;
+    }
+
+    public static Timereport convertFromDto(TimereportDto timereportDto) {
+        Timereport timereport = new Timereport();
+        timereport.setId(timereportDto.getId());
+        timereport.setHours(timereportDto.getHours());
+        timereport.setProject(Converter.convertFromDto(timereportDto.getProjectDto()));
+        return timereport;
     }
 }
