@@ -1,9 +1,16 @@
 package com.javaguru.timemanager.users;
 
-class UserDto {
+
+import com.javaguru.timemanager.timereports.TimereportDto;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class UserDto {
 
     private Long id;
     private String name;
+    private Set<TimereportDto> timereports = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -19,5 +26,13 @@ class UserDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<TimereportDto> getTimereports() {
+        return timereports;
+    }
+
+    public void setTimereports(Set<TimereportDto> timereports) {
+        this.timereports = timereports;
     }
 }
