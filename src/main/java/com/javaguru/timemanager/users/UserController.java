@@ -9,9 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.net.URI;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -80,7 +83,7 @@ class UserController {
                 .build();
     }
 
-    @PutMapping("/{id}/timereports/{timereport_id")
+    @PutMapping("/{id}/timereports/{timereport_id}")
     public ResponseEntity<Void> addTimereport(@PathVariable Long id, @PathVariable Long timereport_id) {
         User user = userService.findById(id);
         Timereport timereport = timereportService.findById(timereport_id);
@@ -90,5 +93,11 @@ class UserController {
                 .buildAndExpand(user.getId())
                 .toUri();
         return ResponseEntity.status(HttpStatus.ACCEPTED).location(location).build();
+    }
+
+    @GetMapping("/{id}/?year")
+    public ResponseEntity<Map<Month, BigDecimal>> getSalaryPerMonth(@RequestParam int year, @PathVariable Long id) {
+        User user = userService.findById(id);
+        return ResponseEntity.ok(user.getSalaryPerMonth(year));
     }
 }

@@ -4,6 +4,8 @@ import com.javaguru.timemanager.projects.Project;
 import com.javaguru.timemanager.timereports.Timereport;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.Month;
 import java.util.*;
 
 @Entity
@@ -53,6 +55,42 @@ public class User {
         Set<Project> projects = new HashSet<>();
         timereports.forEach(t -> projects.add(t.getProject()));
         return projects;
+    }
+
+    public Map<String, BigDecimal> getSalaryPerProject() {
+        Map<String, BigDecimal> salaryPerProject = new HashMap<>();
+        timereports.forEach(t -> {
+            String projectName = t.getProject().getName();
+            if (salaryPerProject.containsKey(projectName)) {
+                salaryPerProject.replace(projectName, t.getSalary().add(salaryPerProject.get(projectName)));
+            } else {
+                salaryPerProject.put(projectName, t.getSalary());
+            }
+        });
+        return salaryPerProject;
+    }
+
+    public Map<Month, BigDecimal> getSalaryPerMonth(int year) {
+        Map<Month, BigDecimal> salaries = new HashMap<>();
+        timereports.forEach(t -> {
+            if (year == t.getDate().toLocalDate().getYear()) {
+                Month month = t.getDate().toLocalDate().getMonth();
+                if (salaries.containsKey(month)) {
+                    salaries.replace(month, t.getSalary().add(salaries.get(month)));
+                } else {
+                    salaries.put(month, t.getSalary());
+                }
+            }
+        });
+        return salaries;
+    }
+
+    public BigDecimal getTotalSalary() {
+        return timereports
+                .stream()
+                .map(Timereport::getSalary)
+                .reduce(BigDecimal::add)
+                .orElse(new BigDecimal("0"));
     }
 
     @Override

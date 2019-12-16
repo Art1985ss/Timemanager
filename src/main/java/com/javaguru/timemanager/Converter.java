@@ -19,6 +19,8 @@ public class Converter {
         Set<TimereportDto> timereportDtos = new HashSet<>();
         user.getTimereports().forEach(t -> timereportDtos.add(convertToDto(t)));
         userDto.setTimereports(timereportDtos);
+        userDto.setSalaryPerProject(user.getSalaryPerProject());
+        userDto.setTotalSalary(user.getTotalSalary());
         return userDto;
     }
 

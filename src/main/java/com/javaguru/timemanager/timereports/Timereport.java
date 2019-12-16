@@ -4,18 +4,21 @@ import com.javaguru.timemanager.projects.Project;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name="timereports")
+@Table(name = "timereports")
 public class Timereport {
     @Id
     @GeneratedValue
     private Long id;
     @Column(name = "hours")
     private BigDecimal hours;
-    @OneToOne
-    @JoinColumn(name = "id")
+    @Column(name = "created")
+    private Date date;
+    @ManyToOne
+    @JoinColumn(name = "project_id")
     private Project project;
 
     public Timereport() {
@@ -37,12 +40,24 @@ public class Timereport {
         this.hours = hours;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public Project getProject() {
         return project;
     }
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public BigDecimal getSalary() {
+        return hours.multiply(project.getRate());
     }
 
     @Override
