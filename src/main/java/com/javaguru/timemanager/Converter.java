@@ -18,7 +18,7 @@ public class Converter {
         userDto.setName(user.getName());
         Set<TimereportDto> timereportDtos = new HashSet<>();
         user.getTimereports().forEach(t -> timereportDtos.add(convertToDto(t)));
-        userDto.setTimereports(timereportDtos);
+        userDto.setTimereportsDto(timereportDtos);
         userDto.setSalaryPerProject(user.getSalaryPerProject());
         userDto.setTotalSalary(user.getTotalSalary());
         return userDto;
@@ -29,7 +29,7 @@ public class Converter {
         user.setId(userDto.getId());
         user.setName(userDto.getName());
         Set<Timereport> timereports = new HashSet<>();
-        userDto.getTimereports().forEach(t -> timereports.add(Converter.convertFromDto(t)));
+        userDto.getTimereportsDto().forEach(t -> timereports.add(Converter.convertFromDto(t)));
         user.setTimereports(timereports);
         return user;
     }

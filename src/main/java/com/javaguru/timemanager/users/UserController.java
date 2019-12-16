@@ -95,8 +95,9 @@ class UserController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).location(location).build();
     }
 
-    @GetMapping("/{id}/?year")
-    public ResponseEntity<Map<Month, BigDecimal>> getSalaryPerMonth(@RequestParam int year, @PathVariable Long id) {
+    @GetMapping("/{id}/salary")
+    public ResponseEntity<Map<Month, BigDecimal>> getSalaryPerMonth(@RequestParam(value = "year") int year,
+                                                                    @PathVariable Long id) {
         User user = userService.findById(id);
         return ResponseEntity.ok(user.getSalaryPerMonth(year));
     }
