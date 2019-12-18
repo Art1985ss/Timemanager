@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/timereports")
@@ -27,8 +27,8 @@ public class TimereportController {
 
     @GetMapping
     public ResponseEntity<List<TimereportDto>> getAll() {
-        List<TimereportDto> timereportDtos = new ArrayList<>();
-        timereportService.getAll().forEach(t -> timereportDtos.add(Converter.convertToDto(t)));
+        List<TimereportDto> timereportDtos = timereportService.getAll().stream()
+                .map(Converter::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(timereportDtos);
     }
 

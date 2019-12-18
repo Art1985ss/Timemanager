@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class TimereportService {
@@ -21,7 +22,7 @@ public class TimereportService {
 
     public Timereport findById(Long id) {
         return timereportRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No time report found with id : " + id));
+                .orElseThrow(() -> new NoSuchElementException("No time report found with id : " + id));
     }
 
     public List<Timereport> getAll() {
@@ -30,7 +31,7 @@ public class TimereportService {
 
     public void deleteById(Long id) {
         Timereport timereport = timereportRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No time report found with id : " + id + " to delete"));
+                .orElseThrow(() -> new NoSuchElementException("No time report found with id : " + id + " to delete"));
         timereportRepository.delete(timereport);
     }
 
@@ -38,7 +39,7 @@ public class TimereportService {
         timereportRepository.save(timereport);
     }
 
-    public Timereport setProject(Timereport timereport, Project project){
+    public Timereport setProject(Timereport timereport, Project project) {
         timereport.setProject(project);
         this.update(timereport);
         return timereport;

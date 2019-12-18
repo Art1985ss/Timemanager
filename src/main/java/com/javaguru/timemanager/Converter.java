@@ -7,8 +7,7 @@ import com.javaguru.timemanager.timereports.TimereportDto;
 import com.javaguru.timemanager.users.User;
 import com.javaguru.timemanager.users.UserDto;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Converter {
 
@@ -16,9 +15,7 @@ public class Converter {
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
         userDto.setName(user.getName());
-        Set<TimereportDto> timereportDtos = new HashSet<>();
-        user.getTimereports().forEach(t -> timereportDtos.add(convertToDto(t)));
-        userDto.setTimereportsDto(timereportDtos);
+        userDto.setTimereportsDto(user.getTimereports().stream().map(Converter::convertToDto).collect(Collectors.toSet()));
         userDto.setSalaryPerProject(user.getSalaryPerProject());
         userDto.setTotalSalary(user.getTotalSalary());
         return userDto;
@@ -28,9 +25,7 @@ public class Converter {
         User user = new User();
         user.setId(userDto.getId());
         user.setName(userDto.getName());
-        Set<Timereport> timereports = new HashSet<>();
-        userDto.getTimereportsDto().forEach(t -> timereports.add(Converter.convertFromDto(t)));
-        user.setTimereports(timereports);
+        user.setTimereports(userDto.getTimereportsDto().stream().map(Converter::convertFromDto).collect(Collectors.toSet()));
         return user;
     }
 

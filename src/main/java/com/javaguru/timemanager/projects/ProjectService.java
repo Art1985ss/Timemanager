@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class ProjectService {
@@ -20,12 +21,12 @@ public class ProjectService {
 
     public Project findById(Long id) {
         return projectRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No product found with id : " + id));
+                .orElseThrow(() -> new NoSuchElementException("No product found with id : " + id));
     }
 
     public Project findByName(String name) {
         return projectRepository.findByName(name)
-                .orElseThrow(() -> new RuntimeException("No product found with name : " + name));
+                .orElseThrow(() -> new NoSuchElementException("No product found with name : " + name));
     }
 
     public List<Project> findAll() {
@@ -34,7 +35,7 @@ public class ProjectService {
 
     public void deleteById(Long id) {
         Project project = projectRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No project found with id : " + id + " to delete"));
+                .orElseThrow(() -> new NoSuchElementException("No project found with id : " + id + " to delete"));
         projectRepository.delete(project);
     }
 

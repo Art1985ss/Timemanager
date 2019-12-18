@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/projects")
@@ -23,9 +23,9 @@ public class ProjectController {
 
     @GetMapping
     public ResponseEntity<List<ProjectDto>> findAll() {
-        List<ProjectDto> projectDtos = new ArrayList<>();
-        projectService.findAll().forEach(p -> projectDtos.add(Converter.convertToDto(p)));
-        return ResponseEntity.ok(projectDtos);
+        List<ProjectDto> projectsDto = projectService.findAll().stream()
+                .map(Converter::convertToDto).collect(Collectors.toList());
+        return ResponseEntity.ok(projectsDto);
     }
 
     @PostMapping

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Service
 public class UserService {
@@ -23,12 +24,12 @@ public class UserService {
 
     public User findById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No user found with this id : " + id));
+                .orElseThrow(() -> new NoSuchElementException("No user found with this id : " + id));
     }
 
     public User findByName(String name) {
         return userRepository.findByName(name)
-                .orElseThrow(() -> new RuntimeException("No user found with name : " + name));
+                .orElseThrow(() -> new NoSuchElementException("No user found with name : " + name));
     }
 
     public List<User> getAll() {
@@ -37,7 +38,7 @@ public class UserService {
 
     public void deleteById(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No user found with id : " + id + " to delete"));
+                .orElseThrow(() -> new NoSuchElementException("No user found with id : " + id + " to delete"));
         userRepository.delete(user);
     }
 

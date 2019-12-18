@@ -12,9 +12,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -30,8 +30,8 @@ class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserDto>> findAll() {
-        List<UserDto> userDtoList = new ArrayList<>();
-        userService.getAll().forEach(u -> userDtoList.add(Converter.convertToDto(u)));
+        List<UserDto> userDtoList = userService.getAll().stream()
+                .map(Converter::convertToDto).collect(Collectors.toList());
         return ResponseEntity.ok(userDtoList);
     }
 
